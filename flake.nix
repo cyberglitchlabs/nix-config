@@ -63,6 +63,11 @@
           modules = [ ./hosts/nix-fusion ];
           system = "x86_64-linux";
         };
+        macmeh = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./hosts/macmeh ];
+          system = "x86_64-darwin";
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -71,6 +76,11 @@
         # FIXME replace with your username@hostname
         "jason@nix-fusion" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [ ./home-manager/home.nix ];
+        };
+        "jason@macmeh" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home-manager/home.nix ];
         };
